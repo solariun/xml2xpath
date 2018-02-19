@@ -55,6 +55,27 @@ class XmlLexicalParser
 private:
     XmlLexicalParser ();
 public:
+    
+    class XmlLexicalParserEx : public std::runtime_error
+    {
+    private:
+        uint32_t n32Code;
+        string   strMessage;
+        
+        XmlLexicalParserEx();
+        
+    public:
+        
+        XmlLexicalParserEx (uint32_t n32Code, string strMessage);
+        
+        virtual const char* what() const throw()
+        {
+            return "XmlLexicalParser::XmlLexicalParserEx";
+        }
+        
+        
+    };
+    
     XmlLexicalParser (istream isIn);
     
     xmlLexicalITemRet getNextLexicalItem ();

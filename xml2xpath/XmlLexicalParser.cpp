@@ -17,6 +17,15 @@ XmlLexicalParser::XmlLexicalParser ()
 
 XmlLexicalParser::XmlLexicalParser (istream isIn)
 {
-    
     return;
 }
+
+
+XmlLexicalParser::XmlLexicalParserEx::XmlLexicalParserEx () : runtime_error("")
+{
+}
+
+XmlLexicalParser::XmlLexicalParserEx::XmlLexicalParserEx (uint32_t n32Code, string strMessage) : n32Code(n32Code), strMessage(strMessage), runtime_error(strMessage)
+{
+}
+
