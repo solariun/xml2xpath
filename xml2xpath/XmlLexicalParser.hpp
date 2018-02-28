@@ -14,8 +14,31 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "MetaException.hpp"
 
 using namespace std;
+
+/*
+ Excpetion habler
+ */
+class XmlLexicalParserEx : public MetaException
+{
+private:
+    uint32_t n32Code;
+    string   strMessage;
+    
+    XmlLexicalParserEx();
+    
+public:
+    
+    XmlLexicalParserEx (uint32_t n32Code, string strMessage);
+    
+    virtual const char* what() const throw()
+    {
+        return "XmlLexicalParser::XmlLexicalParserEx";
+    }
+};
+
 
 /*
  * Enum used to typing the Lexical Itens.
@@ -54,27 +77,8 @@ class XmlLexicalParser
 {
 private:
     XmlLexicalParser ();
+
 public:
-    
-    class XmlLexicalParserEx : public std::runtime_error
-    {
-    private:
-        uint32_t n32Code;
-        string   strMessage;
-        
-        XmlLexicalParserEx();
-        
-    public:
-        
-        XmlLexicalParserEx (uint32_t n32Code, string strMessage);
-        
-        virtual const char* what() const throw()
-        {
-            return "XmlLexicalParser::XmlLexicalParserEx";
-        }
-        
-        
-    };
     
     XmlLexicalParser (istream isIn);
     

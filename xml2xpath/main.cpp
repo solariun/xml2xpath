@@ -11,6 +11,8 @@
 #include <fstream>
 #include <string>
 
+#include "XmlLexicalParser.hpp"
+
 using namespace std;
 
 
@@ -44,6 +46,18 @@ int main(int argc, const char * argv[]) {
     
     char chCinbuffer [64 * 1024]; // 64k buffer;
 
+    try
+    {
+        cout << "init text verify " << endl;
+        
+        XmlLexicalParserEx::verify(false, 10, "TESTE ");
+        
+    }
+    catch (MetaException* ex)
+    {
+        cout << "Exception type (" << ex->what() << ") : " << ex->getExMessage() << endl;
+    }
+    
     
     if (isatty (fileno(stdin)))
     {
@@ -56,6 +70,7 @@ int main(int argc, const char * argv[]) {
     
     
     cout << "Final processing" << endl;
+    
     
     return 0;
 }

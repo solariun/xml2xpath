@@ -11,21 +11,15 @@
 
 
 XmlLexicalParser::XmlLexicalParser ()
-{
-    return;
-}
+{}
 
 XmlLexicalParser::XmlLexicalParser (istream isIn)
-{
-    return;
-}
+{}
 
 
-XmlLexicalParser::XmlLexicalParserEx::XmlLexicalParserEx () : runtime_error("")
-{
-}
+XmlLexicalParserEx::XmlLexicalParserEx () : MetaException(0, "")
+{}
 
-XmlLexicalParser::XmlLexicalParserEx::XmlLexicalParserEx (uint32_t n32Code, string strMessage) : n32Code(n32Code), strMessage(strMessage), runtime_error(strMessage)
-{
-}
+XmlLexicalParserEx::XmlLexicalParserEx (uint32_t n32Code, string strMessage) : MetaException(n32Code, strMessage)
+{}
 
