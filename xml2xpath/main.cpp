@@ -46,6 +46,7 @@ int main(int argc, const char * argv[]) {
     
     char chCinbuffer [64 * 1024]; // 64k buffer;
 
+    /*
     try
     {
         cout << "init text verify " << endl;
@@ -57,7 +58,7 @@ int main(int argc, const char * argv[]) {
     {
         cout << "Exception type (" << ex->what() << ") : " << ex->getExMessage() << endl;
     }
-    
+    */
     
     if (isatty (fileno(stdin)))
     {
