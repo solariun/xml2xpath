@@ -46,13 +46,13 @@ public:
 
 enum xmlElements_t
 {
-    start_tag,
+    none_tag,
+    open_tag,
     end_tag,
-    value_tag,
+    string_tag,
+    string_qute_tag,
     close_tag,
-    Attr_tag,
-    equal_tag,
-    string_tag
+    equal_tag
 };
 
 
@@ -61,11 +61,24 @@ enum xmlElements_t
  * Type used for returning the Lexical ITem
  */
 
-typedef struct
+class xmlLexicalITemRet
 {
-    xmlElements_t   xmleType;
-    string          strValue;
-} xmlLexicalITemRet;
+public:
+    xmlLexicalITemRet(xmlElements_t  xmleType, string& strValue) : xmleType(xmleType), strValue(strValue){};
+    
+    xmlLexicalITemRet(){};
+
+    xmlLexicalITemRet* assign (xmlElements_t  xmleType, string& strValue)
+    {
+        this->xmleType = xmleType;
+        this->strValue = strValue;
+        
+        return this;
+    }
+    
+    xmlElements_t   xmleType = none_tag;
+    string          strValue = "";
+};
 
 
 
@@ -75,14 +88,20 @@ typedef struct
 
 class XmlLexicalParser
 {
+protected:
+    istream& isIn = cin;
+    
 private:
     XmlLexicalParser ();
 
+    xmlLexicalITemRet* getNewxmlLexicalITemRet(xmlElements_t  xmleType, string strValue);
+    
 public:
     
-    XmlLexicalParser (istream isIn);
+    XmlLexicalParser (istream& isIn);
     
-    xmlLexicalITemRet getNextLexicalItem ();
+    xmlLexicalITemRet* getNextLexicalItem (xmlLexicalITemRet& strData);
+    
 };
 
 

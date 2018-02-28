@@ -17,27 +17,6 @@ using namespace std;
 
 
 
-string* getStdinLine (string& strData)
-{
-    char chData;
-    
-    strData.clear();
-    
-    if (cin.eof())
-        return NULL;
-    
-    while (!cin.eof() && (chData = cin.get()) && chData != '\n')
-    {
-        if (chData == '\t' || chData >= ' ')
-        {
-            strData.append (sizeof (char), chData);
-        }
-    }
-    
-    //cerr << "Reado so far: " << strData.length() << endl;
-    
-    return &strData;
-}
 
 
 int main(int argc, const char * argv[]) {
@@ -69,6 +48,16 @@ int main(int argc, const char * argv[]) {
     
     string strDataBuffer = "";
     
+    ifstream ifFileStream ("/Users/gustavocampos/Library/Developer/Xcode/DerivedData/xml2xpath-dgdhxtmfhjqugkemvbedmvgjcbwp/Build/Products/Debug/etlexpmx_LNCEL_20180214203434_2204790.xml");
+    
+    //XmlLexicalParser lexParser (cin);
+    XmlLexicalParser lexParser (ifFileStream);
+
+    
+    xmlLexicalITemRet xmlLexRet;
+    
+    
+    while (lexParser.getNextLexicalItem(xmlLexRet) != NULL){ };
     
     cout << "Final processing" << endl;
     
