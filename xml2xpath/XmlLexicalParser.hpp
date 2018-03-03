@@ -52,7 +52,8 @@ enum xmlElements_t
     string_tag,
     string_qute_tag,
     close_tag,
-    equal_tag
+    equal_tag,
+    value_tag
 };
 
 
@@ -90,6 +91,9 @@ class XmlLexicalParser
 {
 protected:
     istream& isIn = cin;
+    xmlElements_t nType = none_tag;
+    
+
     
 private:
     XmlLexicalParser ();

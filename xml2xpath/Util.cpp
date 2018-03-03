@@ -18,7 +18,8 @@ bool isBetween (char chChar, const char* pszCharList, int32_t nMaxCharList=0)
 {
     nMaxCharList--;
 
-    while (nMaxCharList >= 0 && pszCharList [nMaxCharList--] != chChar) { std::cout << "comparing: " << pszCharList [nMaxCharList+1] << " : " << chChar  << endl ; };
+    while ((--nMaxCharList) >= 0 && pszCharList [nMaxCharList] != chChar) { /*std::cout << "comparing: " << pszCharList [nMaxCharList+1] << " : " << chChar  << std::endl; */ };
     
     return nMaxCharList < 0 ? false : true;
 }
+

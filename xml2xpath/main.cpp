@@ -48,7 +48,7 @@ int main(int argc, const char * argv[]) {
     
     string strDataBuffer = "";
     
-    ifstream ifFileStream ("/Users/gustavocampos/Library/Developer/Xcode/DerivedData/xml2xpath-dgdhxtmfhjqugkemvbedmvgjcbwp/Build/Products/Debug/etlexpmx_LNCEL_20180214203434_2204790.xml");
+    ifstream ifFileStream ("/Users/gustavocampos/Library/Developer/Xcode/DerivedData/xml2xpath-dgdhxtmfhjqugkemvbedmvgjcbwp/Build/Products/Debug/teste.xml");
     
     //XmlLexicalParser lexParser (cin);
     XmlLexicalParser lexParser (ifFileStream);
@@ -57,7 +57,7 @@ int main(int argc, const char * argv[]) {
     xmlLexicalITemRet xmlLexRet;
     
     
-    while (lexParser.getNextLexicalItem(xmlLexRet) != NULL){ };
+    while (lexParser.getNextLexicalItem(xmlLexRet) != NULL){ cout << "Type: " << xmlLexRet.xmleType << " Value: " << xmlLexRet.strValue << endl; };
     
     cout << "Final processing" << endl;
     

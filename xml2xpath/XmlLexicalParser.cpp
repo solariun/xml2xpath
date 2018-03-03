@@ -10,11 +10,12 @@
 
 #include "Util.hpp"
 
-
-#include <new>;
+#include <iostream>
+#include <new>
 
 
 #define LX_OTIONS "!-/=!"
+#define LX_DIVISION " \r\n\t"
 /*
    Exception Handler
 */
@@ -39,7 +40,6 @@ XmlLexicalParser::XmlLexicalParser (istream& isIn) : isIn (isIn)
 
 xmlLexicalITemRet* XmlLexicalParser::getNextLexicalItem (xmlLexicalITemRet& xmlLExRet)
 {
-    xmlElements_t nType = none_tag;
     string  strData = "";
     
     char    chChar = '\0';
@@ -47,35 +47,48 @@ xmlLexicalITemRet* XmlLexicalParser::getNextLexicalItem (xmlLexicalITemRet& xmlL
     
     if (isIn.eof()) return NULL;
     
-    while (!isIn.eof())
+    while (isIn.good())
     {
         chChar = isIn.get();
         
-        cout << chChar << " tp: " << nType << " : String: [" << strData << "]" << endl;
+        //cout << chChar << " tp: " << nType << " : String: [" << strData << "]" <<  " EOF: " << isIn.eof () << endl;
         
         
         if (nType == none_tag && chChar == '<')
         {
-            cout << "Return <" << endl;
+            //cout << "Return <" << endl;
             
-            strData.assign("<");
+            strData = chChar;
             
+            nType = none_tag;
             return xmlLExRet.assign (open_tag, strData);
         }
         else if (nType == none_tag && chChar == '>')
         {
-            cout << "Return >" << endl;
+            //cout << "Return >" << endl;
             
-            strData.assign(">");
+            strData = chChar;
+            
+            nType = value_tag;
+            return xmlLExRet.assign (close_tag, strData);
+        }
+        else if (nType == value_tag && chChar == '<')
+        {
+            //cout << "Return >" << endl;
+            
+            nType = none_tag;
+            
+            isIn.putback(chChar);
             
             return xmlLExRet.assign (close_tag, strData);
         }
         else if (nType == none_tag && chChar == '=')
         {
-            cout << "Return =" << endl;
+            //cout << "Return =" << endl;
             
-            strData.assign("-");
+            strData = chChar;
             
+            nType = none_tag;
             return xmlLExRet.assign (equal_tag, strData);
         }
         else if (nType == none_tag && chChar == '"')
@@ -84,17 +97,18 @@ xmlLexicalITemRet* XmlLexicalParser::getNextLexicalItem (xmlLexicalITemRet& xmlL
         }
         else if (nType == string_qute_tag && chChar == '"' && bAddNext == false)
         {
-            cout << "Return \"\" string" << endl;
+            //cout << "Return \"\" string" << endl;
             
+            nType = none_tag;
             return xmlLExRet.assign(string_tag, strData);
         }
         else if (nType == string_qute_tag && chChar == '\\' && bAddNext == false)
         {
             bAddNext = true;
         }
-        else if (nType == none_tag && chChar != ' ')
+        else if (nType == none_tag && !isBetween (chChar, LX_DIVISION, sizeof (LX_DIVISION)-1) )
         {
-            cout << "setting simple string...." << endl;
+            //cout << "setting simple string...." << endl;
             
             isIn.putback(chChar);
             
@@ -107,17 +121,24 @@ xmlLexicalITemRet* XmlLexicalParser::getNextLexicalItem (xmlLexicalITemRet& xmlL
                 isIn.putback(chChar);
             }
             
-            cout << "Return simple srtring " << endl;
+            //cout << "Return simple srtring " << endl;
             
+            nType = none_tag;
             return xmlLExRet.assign(string_tag, strData);
         }
-        else if (nType == string_qute_tag || nType == string_tag)
+        else if (nType == string_qute_tag || nType == string_tag || nType == value_tag)
         {
             if (bAddNext == true) bAddNext = false;
             
-            cout << "adding [" << chChar << "]" << endl;
+            //cout << "adding [" << chChar << "] - type: " << nType << endl;
             
-            strData += chChar;
+            if (chChar == '\n')
+                strData += "\n";
+            else if (chChar == '\r')
+                strData += "\r";
+            else
+                strData += chChar;
+            
         }
     }
     
@@ -140,4 +161,4 @@ xmlLexicalITemRet* XmlLexicalParser::getNewxmlLexicalITemRet(xmlElements_t  xmle
     return NULL;
 }
 
-
+//0103182186491
