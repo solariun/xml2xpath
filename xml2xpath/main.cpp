@@ -11,7 +11,7 @@
 #include <fstream>
 #include <string>
 
-#include "XmlLexicalParser.hpp"
+#include "XmlParser.hpp"
 
 using namespace std;
 
@@ -51,7 +51,7 @@ int main(int argc, const char * argv[]) {
     ifstream ifFileStream ("/Users/gustavocampos/Library/Developer/Xcode/DerivedData/xml2xpath-dgdhxtmfhjqugkemvbedmvgjcbwp/Build/Products/Debug/teste.xml");
     
     //XmlLexicalParser lexParser (cin);
-    XmlLexicalParser lexParser (ifFileStream);
+    XmlParser lexParser (ifFileStream);
 
     
     xmlLexicalITemRet xmlLexRet;

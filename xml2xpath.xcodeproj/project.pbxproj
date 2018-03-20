@@ -10,7 +10,7 @@
 		672F39B32044811800780083 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 672F39B12044811800780083 /* Util.cpp */; };
 		672F39B62044ACC100780083 /* MetaException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 672F39B42044ACC100780083 /* MetaException.cpp */; };
 		67A0308F202D976A0048995D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A0308E202D976A0048995D /* main.cpp */; };
-		67BAC0FF203513E00066E15B /* XmlLexicalParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BAC0FD203513E00066E15B /* XmlLexicalParser.cpp */; };
+		67BAC0FF203513E00066E15B /* XmlParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BAC0FD203513E00066E15B /* XmlParser.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,8 +32,9 @@
 		672F39B52044ACC100780083 /* MetaException.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetaException.hpp; sourceTree = "<group>"; };
 		67A0308B202D976A0048995D /* xml2xpath */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xml2xpath; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A0308E202D976A0048995D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		67BAC0FD203513E00066E15B /* XmlLexicalParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = XmlLexicalParser.cpp; sourceTree = "<group>"; };
-		67BAC0FE203513E00066E15B /* XmlLexicalParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = XmlLexicalParser.hpp; sourceTree = "<group>"; };
+		67A1817D204F767B00939F3D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		67BAC0FD203513E00066E15B /* XmlParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = XmlParser.cpp; sourceTree = "<group>"; };
+		67BAC0FE203513E00066E15B /* XmlParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = XmlParser.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +51,7 @@
 		67A03082202D976A0048995D = {
 			isa = PBXGroup;
 			children = (
+				67A1817D204F767B00939F3D /* README.md */,
 				67A0308D202D976A0048995D /* xml2xpath */,
 				67A0308C202D976A0048995D /* Products */,
 			);
@@ -67,8 +69,8 @@
 			isa = PBXGroup;
 			children = (
 				67A0308E202D976A0048995D /* main.cpp */,
-				67BAC0FD203513E00066E15B /* XmlLexicalParser.cpp */,
-				67BAC0FE203513E00066E15B /* XmlLexicalParser.hpp */,
+				67BAC0FD203513E00066E15B /* XmlParser.cpp */,
+				67BAC0FE203513E00066E15B /* XmlParser.hpp */,
 				672F39B12044811800780083 /* Util.cpp */,
 				672F39B22044811800780083 /* Util.hpp */,
 				672F39B42044ACC100780083 /* MetaException.cpp */,
@@ -137,7 +139,7 @@
 				672F39B62044ACC100780083 /* MetaException.cpp in Sources */,
 				672F39B32044811800780083 /* Util.cpp in Sources */,
 				67A0308F202D976A0048995D /* main.cpp in Sources */,
-				67BAC0FF203513E00066E15B /* XmlLexicalParser.cpp in Sources */,
+				67BAC0FF203513E00066E15B /* XmlParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
