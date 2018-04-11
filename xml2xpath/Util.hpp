@@ -40,9 +40,11 @@
 #include <fstream>
 #include <string>
 
-
+static std::string _str = "";
 
 bool isBetween  (char chChar, const char* pszCharList, int32_t nMaxCharList);
+
+std::string getPathBasename (std::string strPath, std::string& strReturn);
 
 #endif /* Util_hpp */
 

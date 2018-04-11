@@ -65,6 +65,14 @@ public:
 
 
 /*
+ * ERROR CODES
+ */
+
+#define VERIFY_XMLPARSER_ATTR_NOT_COMPLIANCE        100
+#define VERIFY_XMLPARSER_CLOSE_TAG_NOT_THE_SAME     101
+
+
+/*
  * Enum used to typing the Lexical Itens.
  */
 
@@ -77,7 +85,8 @@ enum xmlElements_t
     string_qute_tag,
     close_tag,
     equal_tag,
-    value_tag
+    value_tag,
+    tag_tag
 };
 
 
@@ -122,13 +131,17 @@ protected:
 private:
     XmlParser ();
 
-    xmlLexicalITemRet* getNewxmlLexicalITemRet(xmlElements_t  xmleType, string strValue);
-    
+    xmlLexicalITemRet* getNextLexicalItem (xmlLexicalITemRet& strData);
+
+    void ProcessAndPrintOut(string strCurTag,  xmlElements_t nType);
+
 public:
-    
+
+    void ProcessAndPrintOut();
+
     XmlParser (istream& isIn);
     
-    xmlLexicalITemRet* getNextLexicalItem (xmlLexicalITemRet& strData);
+    
     
 };
 

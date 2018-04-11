@@ -97,7 +97,7 @@ xmlLexicalITemRet* XmlParser::getNextLexicalItem (xmlLexicalITemRet& xmlLExRet)
             
             isIn.putback(chChar);
             
-            return xmlLExRet.assign (close_tag, strData);
+            if (strData.length()>0) return xmlLExRet.assign (string_qute_tag, strData);
         }
         else if (nType == none_tag && chChar == '=')
         {
@@ -145,28 +145,138 @@ xmlLexicalITemRet* XmlParser::getNextLexicalItem (xmlLexicalITemRet& xmlLExRet)
         }
         else if (nType == string_qute_tag || nType == string_tag || nType == value_tag)
         {
-            if (bAddNext == true) bAddNext = false;
-            
-            //cout << "adding [" << chChar << "] - type: " << nType << endl;
-            
-            if (chChar == '\n')
-                strData += "\n";
-            else if (chChar == '\r')
-                strData += "\r";
-            else
-                strData += chChar;
-            
+            if (! (strData.length() == 0 && chChar <= ' '))
+            {
+                if (bAddNext == true) bAddNext = false;
+                
+                //cout << "adding [" << chChar << "] - type: " << nType << endl;
+                
+                if (chChar == '\n')
+                    strData += "\n";
+                else if (chChar == '\r')
+                    strData += "\r";
+                else
+                    strData += chChar;
+            }
         }
     }
     
     return NULL;
 }
 
-xmlLexicalITemRet* XmlParser::getNewxmlLexicalITemRet(xmlElements_t  xmleType, string strValue)
+
+void XmlParser::ProcessAndPrintOut()
 {
+    ProcessAndPrintOut("", none_tag);
+}
+
+
+void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
+{
+    if (strPath.length() > 0)
+    {
+        cerr << endl << "ENTERING NEW LEVEL: " << strPath << endl;
+    }
+    
     try
     {
-        return new xmlLexicalITemRet (xmleType, strValue);
+        //XmlLexicalParser lexParser (cin);
+        xmlLexicalITemRet xmlLexRet;
+        
+        string strAttributeName = "";
+        
+        
+        while (getNextLexicalItem(xmlLexRet) != NULL)
+        {
+            cout << "Type: " << xmlLexRet.xmleType << " Value: " << xmlLexRet.strValue << endl;
+            
+            if (nType == none_tag)
+            {
+                if (xmlLexRet.xmleType == open_tag)
+                {
+                    nType = open_tag;
+                }
+            }
+            else if (nType == tag_tag)
+            {
+                if (xmlLexRet.xmleType == string_tag)
+                {
+                    if (strAttributeName.length() == 0)
+                    {
+                        strAttributeName = xmlLexRet.strValue;
+                    }
+                    else
+                    {
+                        cout << strPath << "@" << strAttributeName << "=" << endl;
+                        strAttributeName = "";
+                        nType  = tag_tag;
+                    }
+                }
+                else if (xmlLexRet.xmleType == equal_tag)
+                {
+                    nType = equal_tag;
+                }
+                else if (xmlLexRet.xmleType == close_tag)
+                {
+                    nType = close_tag;
+                }
+            }
+            else if (nType == close_tag)
+            {
+                if (xmlLexRet.xmleType == string_qute_tag)
+                {
+                    cout << strPath << "@" << strAttributeName << "=" << xmlLexRet.strValue << endl;
+                    
+                    strAttributeName="";
+                    
+                    nType = none_tag;
+                }
+                else if (xmlLexRet.xmleType == open_tag)
+                {
+                    nType = end_tag;
+                }
+            }
+            else if (nType == equal_tag && xmlLexRet.xmleType == string_tag)
+            {
+                if (strAttributeName.length() == 0)
+                {
+                    ASSERT_TEXT (strAttributeName.length() == 0, VERIFY_XMLPARSER_ATTR_NOT_COMPLIANCE, "Error, Attribute not compliance.");
+                    
+                    continue;
+                }
+                
+                cout << strPath << "@" << strAttributeName << "=" << xmlLexRet.strValue << endl;
+                
+                strAttributeName="";
+                
+                nType = tag_tag;
+            }
+            else if ((nType == open_tag || nType == end_tag) && xmlLexRet.xmleType == string_tag)
+            {
+                if (xmlLexRet.strValue[0] == '/')
+                {
+                    string strBasename = "";
+                    
+                    getPathBasename(strPath, strBasename);
+                    
+                    cerr << "PATH: [" << strPath <<"] Basename: [" << strBasename << "]" << endl;
+                    
+                    
+                    ASSERT_TEXT(xmlLexRet.strValue.substr(1).compare (strBasename) == 0, VERIFY_XMLPARSER_CLOSE_TAG_NOT_THE_SAME, (_str + "Close TAG: " + xmlLexRet.strValue + " is not the same as the start (" + strBasename + ")").c_str());
+                    
+                    return;
+                }
+                else if (isBetween(xmlLexRet.strValue[0], "!@#$%^&*()-_+={}[]|/><.,'", 26) == false)
+                {
+                    nType = tag_tag;
+                    ProcessAndPrintOut(strPath + "/" + xmlLexRet.strValue, nType);
+                }
+                else
+                {
+                    nType = tag_tag;
+                }
+            }
+        };
         
     } catch (std::bad_alloc& ex)
     {
@@ -175,7 +285,7 @@ xmlLexicalITemRet* XmlParser::getNewxmlLexicalITemRet(xmlElements_t  xmleType, s
         throw ex;
     }
     
-    return NULL;
+    return;
 }
 
 //0103182186491

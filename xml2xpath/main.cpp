@@ -18,7 +18,6 @@ using namespace std;
 
 
 
-
 int main(int argc, const char * argv[]) {
     
     nice (19);
@@ -41,7 +40,7 @@ int main(int argc, const char * argv[]) {
     
     if (isatty (fileno(stdin)))
     {
-        cout << "This applicacion works with pipe only." << endl;
+        cerr << "This applicacion works with pipe only." << endl;
     }
     
     cin.rdbuf()->pubsetbuf(chCinbuffer, sizeof (chCinbuffer));
@@ -50,14 +49,10 @@ int main(int argc, const char * argv[]) {
     
     ifstream ifFileStream ("/Users/gustavocampos/Library/Developer/Xcode/DerivedData/xml2xpath-dgdhxtmfhjqugkemvbedmvgjcbwp/Build/Products/Debug/teste.xml");
     
-    //XmlLexicalParser lexParser (cin);
+    
     XmlParser lexParser (ifFileStream);
 
-    
-    xmlLexicalITemRet xmlLexRet;
-    
-    
-    while (lexParser.getNextLexicalItem(xmlLexRet) != NULL){ cout << "Type: " << xmlLexRet.xmleType << " Value: " << xmlLexRet.strValue << endl; };
+    lexParser.ProcessAndPrintOut ();
     
     cout << "Final processing" << endl;
     

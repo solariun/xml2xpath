@@ -45,6 +45,8 @@ using namespace std;
 
 #define VERIFY(cond,id,text) MetaException::verify (cond, "typeid (this).name()", __FILE__, __LINE__, __PRETTY_FUNCTION__, #cond, id, text)
 
+#define ASSERT_TEXT(cond,id,text) if (!(cond)) cerr << "SAFE_ASSERTION: " << __FILE__ << ", " << __LINE__ << ":(" << __PRETTY_FUNCTION__ << ")[" << #cond << "]:" << id << ": " << text << endl;
+
 class MetaException
 {
 private:

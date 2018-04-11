@@ -36,6 +36,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstddef>
 
 
 bool isBetween (char chChar, const char* pszCharList, int32_t nMaxCharList=0)
@@ -51,3 +52,15 @@ bool isBetween (char chChar, const char* pszCharList, int32_t nMaxCharList=0)
     return nMaxCharList < 0 ? false : true;
 }
 
+std::string getPathBasename (std::string strPath, std::string& strReturn)
+{
+    //std::cerr << __FUNCTION__ << ":" << __LINE__ << ":" << strPath << std::endl;
+    
+    std::size_t found = strPath.find_last_of("/\\");
+    if (found == std::string::npos)
+        return "";
+    
+    strReturn = strPath.substr(found+1);
+    
+    return strReturn;
+}
