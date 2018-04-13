@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <string.h>
 
 #include "XmlParser.hpp"
 
@@ -77,10 +78,18 @@ int main(int argc, const char * argv[]) {
     }
     
     
-    
-    XmlParser lexParser (*isInput);
 
-    lexParser.ProcessAndPrintOut ();
+    try
+    {
+        XmlParser lexParser (*isInput);
+        
+        lexParser.ProcessAndPrintOut ();
+
+    } catch (exception ex)
+    {
+        cerr << "ERROR:" << ex.what() << endl;
+    }
+    
     
     cout << "Final processing" << endl;
     
