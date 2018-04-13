@@ -42,9 +42,11 @@
 
 static std::string _str = "";
 
-bool isBetween  (char chChar, const char* pszCharList, int32_t nMaxCharList);
+bool isBetween  (char chChar, const char* pszCharList);
 
 std::string getPathBasename (std::string strPath, std::string& strReturn);
+
+std::string& popPath  (std::string& strPath);
 
 #endif /* Util_hpp */
 

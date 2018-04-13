@@ -126,7 +126,6 @@ protected:
     istream& isIn = cin;
     xmlElements_t nType = none_tag;
     
-
     
 private:
     XmlParser ();

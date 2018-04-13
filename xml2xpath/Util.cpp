@@ -39,9 +39,13 @@
 #include <cstddef>
 
 
-bool isBetween (char chChar, const char* pszCharList, int32_t nMaxCharList=0)
+bool isBetween (char chChar, const char* pszCharList)
 {
-    while ((nMaxCharList) >= 0 && pszCharList [nMaxCharList] != chChar)
+    if (pszCharList == nullptr) return false;
+    
+    int32_t nMaxCharList=(int32_t) strlen(pszCharList);
+    
+    while (nMaxCharList >= 0 && pszCharList [nMaxCharList] != chChar)
     {
         //std::cout << "comparing: (" << nMaxCharList<< ") [" << (int) pszCharList [nMaxCharList+1] << "] [" << (int) chChar  <<  "]" << std::endl;
         nMaxCharList--;
@@ -52,6 +56,7 @@ bool isBetween (char chChar, const char* pszCharList, int32_t nMaxCharList=0)
     return nMaxCharList < 0 ? false : true;
 }
 
+
 std::string getPathBasename (std::string strPath, std::string& strReturn)
 {
     //std::cerr << __FUNCTION__ << ":" << __LINE__ << ":" << strPath << std::endl;
@@ -60,7 +65,22 @@ std::string getPathBasename (std::string strPath, std::string& strReturn)
     if (found == std::string::npos)
         return "";
     
-    strReturn = strPath.substr(found+1);
+    return strPath.substr(found+1);
+}
+
+std::string& popPath  (std::string& strPath)
+{
+    size_t nLastSlash = strPath.find_last_of("/");
     
-    return strReturn;
+    if (nLastSlash == std::string::npos)
+        return strPath;
+    
+    //cerr << endl;
+    //cerr << "Actual Path: [" << strPath << "(" << strPath.size() << ", " << nLastSlash << "," << strPath [nLastSlash] << ")" << endl;
+    
+    strPath.resize(nLastSlash);
+    
+    //cerr << "Previous accessed: [" << strPath << "]" << endl << endl;
+    
+    return strPath;
 }

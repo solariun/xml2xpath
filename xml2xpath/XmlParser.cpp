@@ -123,7 +123,7 @@ xmlLexicalITemRet* XmlParser::getNextLexicalItem (xmlLexicalITemRet& xmlLExRet)
         {
             bAddNext = true;
         }
-        else if (nType == none_tag && !isBetween (chChar, LX_DIVISION, sizeof (LX_DIVISION)-1) )
+        else if (nType == none_tag && !isBetween (chChar, LX_DIVISION) )
         {
             //cout << "setting simple string...." << endl;
             
@@ -131,9 +131,9 @@ xmlLexicalITemRet* XmlParser::getNextLexicalItem (xmlLexicalITemRet& xmlLExRet)
             
             nType = string_tag;
         }
-        else if (nType == string_tag && isBetween(chChar, "<>=\" ", 5))
+        else if (nType == string_tag && isBetween(chChar, "<>=\" "))
         {
-            if (isBetween(chChar, "<>=\"", 4))
+            if (isBetween(chChar, "<>=\""))
             {
                 isIn.putback(chChar);
             }
@@ -188,7 +188,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
         
         while (getNextLexicalItem(xmlLexRet) != NULL)
         {
-            cout << "Type: " << xmlLexRet.xmleType << " Value: " << xmlLexRet.strValue << endl;
+            cerr << "Type: " << xmlLexRet.xmleType << " Value: " << xmlLexRet.strValue << endl;
             
             if (nType == none_tag)
             {
@@ -218,6 +218,13 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
                 }
                 else if (xmlLexRet.xmleType == close_tag)
                 {
+                    string strBasename = "";
+                    
+                    if (getPathBasename(strPath, strBasename).find_last_of("?!") !=  string::npos)
+                    {
+                        return;
+                    }
+                    
                     nType = close_tag;
                 }
             }
@@ -225,7 +232,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
             {
                 if (xmlLexRet.xmleType == string_qute_tag)
                 {
-                    cout << strPath << "@" << strAttributeName << "=" << xmlLexRet.strValue << endl;
+                    cout << strPath << "=" << xmlLexRet.strValue << endl;
                     
                     strAttributeName="";
                     
@@ -266,10 +273,23 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
                     
                     return;
                 }
-                else if (isBetween(xmlLexRet.strValue[0], "!@#$%^&*()-_+={}[]|/><.,'", 26) == false)
+                else if (isBetween(xmlLexRet.strValue[0], "@#$%^&*()-_+={}[]|/><.,'") == false)
                 {
                     nType = tag_tag;
+
+                    
+                    if (strPath.find_last_of("?!") !=  string::npos)
+                    {
+                        cerr << "Before Pop: " << strPath << endl;
+                        popPath(strPath);
+                        cerr << "After  Pop: " << strPath << endl;
+                    }
+                     
+                    
                     ProcessAndPrintOut(strPath + "/" + xmlLexRet.strValue, nType);
+                    
+                    cerr << "Returning path: " << strPath << endl;
+                    
                 }
                 else
                 {
