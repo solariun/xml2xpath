@@ -36,7 +36,6 @@
 
 #include <iostream>
 #include <new>
-#include <regex>
 
 
 #define LX_OTIONS "!-/=!"
@@ -174,8 +173,6 @@ void XmlParser::ProcessAndPrintOut()
 
 void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
 {
-    static regex regexAlNum ("[:alnum:]");
-    
     if (strPath.length() > 0)
     {
         TRACE << endl << "ENTERING NEW LEVEL: " << strPath << endl;
