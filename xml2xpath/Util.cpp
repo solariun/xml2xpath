@@ -37,6 +37,7 @@
 #include <fstream>
 #include <string>
 #include <cstddef>
+#include <string.h>
 
 
 bool isBetween (char chChar, const char* pszCharList)
