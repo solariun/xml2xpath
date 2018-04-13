@@ -47,6 +47,14 @@ using namespace std;
 
 #define ASSERT_TEXT(cond,id,text) if (!(cond)) cerr << "SAFE_ASSERTION: " << __FILE__ << ", " << __LINE__ << ":(" << __PRETTY_FUNCTION__ << ")[" << #cond << "]:" << id << ": " << text << endl;
 
+#define TRACE if (getDebugState() == true) std::cerr
+
+
+void setDebug(bool nState);
+
+bool getDebugState();
+
+
 class MetaException
 {
 private:

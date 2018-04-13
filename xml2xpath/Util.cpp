@@ -58,15 +58,22 @@ bool isBetween (char chChar, const char* pszCharList)
 }
 
 
-std::string getPathBasename (std::string strPath, std::string& strReturn)
+std::string& getPathBasename (std::string strPath, std::string& strReturn)
 {
     //std::cerr << __FUNCTION__ << ":" << __LINE__ << ":" << strPath << std::endl;
     
     std::size_t found = strPath.find_last_of("/\\");
-    if (found == std::string::npos)
-        return "";
     
-    return strPath.substr(found+1);
+    if (found == std::string::npos)
+    {
+        strReturn = "";
+    }
+    else
+    {
+        strReturn = strPath.substr(found+1);
+    }
+    
+    return strReturn;
 }
 
 std::string& popPath  (std::string& strPath)

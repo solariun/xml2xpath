@@ -36,6 +36,7 @@
 
 #include <iostream>
 #include <new>
+#include <regex>
 
 
 #define LX_OTIONS "!-/=!"
@@ -173,10 +174,27 @@ void XmlParser::ProcessAndPrintOut()
 
 void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
 {
+    static regex regexAlNum ("[:alnum:]");
+    
     if (strPath.length() > 0)
     {
-        cerr << endl << "ENTERING NEW LEVEL: " << strPath << endl;
+        TRACE << endl << "ENTERING NEW LEVEL: " << strPath << endl;
+        string strBasename = "";
+        size_t nLen;
+        
+        if ((nLen = strPath.find("![")) != string::npos)
+        {
+            strBasename = strPath.substr(nLen);
+            strPath = strPath.substr(0, nLen-1);
+            
+            
+            cout << strPath << "=" << strBasename << endl;
+            
+            return;
+        }
     }
+    
+    
     
     try
     {
@@ -188,7 +206,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
         
         while (getNextLexicalItem(xmlLexRet) != NULL)
         {
-            cerr << "Type: " << xmlLexRet.xmleType << " Value: " << xmlLexRet.strValue << endl;
+            TRACE << "Type: " << xmlLexRet.xmleType << " Value: " << xmlLexRet.strValue << endl;
             
             if (nType == none_tag)
             {
@@ -220,7 +238,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
                 {
                     string strBasename = "";
                     
-                    if (getPathBasename(strPath, strBasename).find_last_of("?!") !=  string::npos)
+                    if (getPathBasename(strPath, strBasename).find_last_of("?[") !=  string::npos || strAttributeName.find_last_of("?/") != string::npos)
                     {
                         return;
                     }
@@ -267,7 +285,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
                     do getPathBasename(strPath, strBasename); while (strBasename.find_last_of("!?") != string::npos);
                     
                     
-                    cerr << "PATH: [" << strPath <<"] Basename: [" << strBasename << "]" << endl;
+                    TRACE << "PATH: [" << strPath <<"] Basename: [" << strBasename << "]" << endl;
                     
                     
                     ASSERT_TEXT(xmlLexRet.strValue.substr(1).compare (strBasename) == 0, VERIFY_XMLPARSER_CLOSE_TAG_NOT_THE_SAME, (_str + "Close TAG: " + xmlLexRet.strValue + " is not the same as the start (" + strBasename + ")").c_str());
@@ -281,15 +299,15 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
                     
                     if (strPath.find_last_of("?!") !=  string::npos)
                     {
-                        cerr << "Before Pop: " << strPath << endl;
+                        TRACE << "Before Pop: " << strPath << endl;
                         popPath(strPath);
-                        cerr << "After  Pop: " << strPath << endl;
+                        TRACE << "After  Pop: " << strPath << endl;
                     }
                      
                     
                     ProcessAndPrintOut(strPath + "/" + xmlLexRet.strValue, nType);
                     
-                    cerr << "Returning path: " << strPath << endl;
+                    TRACE << "Returning path: " << strPath << endl;
                     
                     nType = none_tag;
                 }
@@ -302,7 +320,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
         
     } catch (std::bad_alloc& ex)
     {
-        cerr << __PRETTY_FUNCTION__ << " exception: " << ex.what();
+        TRACE << __PRETTY_FUNCTION__ << " exception: " << ex.what();
         
         throw ex;
     }
