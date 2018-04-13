@@ -11,6 +11,7 @@
 #include <fstream>
 #include <string>
 #include <string.h>
+#include <regex>
 
 #include "XmlParser.hpp"
 
@@ -85,7 +86,13 @@ int main(int argc, const char * argv[]) {
         
         lexParser.ProcessAndPrintOut ();
 
-    } catch (exception ex)
+    }
+    
+    catch (const std::regex_error& ex)
+    {
+        cerr << "ERROR:" << ex.what() << endl;
+    }
+    catch (exception ex)
     {
         cerr << "ERROR:" << ex.what() << endl;
     }
