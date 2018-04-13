@@ -266,6 +266,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
                     
                     do getPathBasename(strPath, strBasename); while (strBasename.find_last_of("!?") != string::npos);
                     
+                    
                     cerr << "PATH: [" << strPath <<"] Basename: [" << strBasename << "]" << endl;
                     
                     
