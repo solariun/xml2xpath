@@ -152,9 +152,9 @@ xmlLexicalITemRet* XmlParser::getNextLexicalItem (xmlLexicalITemRet& xmlLExRet)
                 //cout << "adding [" << chChar << "] - type: " << nType << endl;
                 
                 if (chChar == '\n')
-                    strData += "\n";
+                    strData += "\\n";
                 else if (chChar == '\r')
-                    strData += "\r";
+                    strData += "\\r";
                 else
                     strData += chChar;
             }
