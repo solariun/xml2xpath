@@ -200,6 +200,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
         
         string strAttributeName = "";
         
+        bool boolHasData = false;
         
         while (getNextLexicalItem(xmlLexRet) != NULL)
         {
@@ -210,6 +211,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
                 if (xmlLexRet.xmleType == open_tag)
                 {
                     nType = open_tag;
+                    boolHasData = false;
                 }
             }
             else if (nType == tag_tag)
@@ -255,6 +257,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
                 }
                 else if (xmlLexRet.xmleType == open_tag)
                 {
+                    cout << "OPEN " << strPath << endl;
                     nType = end_tag;
                 }
             }
@@ -286,6 +289,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
                     
                     
                     ASSERT_TEXT(xmlLexRet.strValue.substr(1).compare (strBasename) == 0, VERIFY_XMLPARSER_CLOSE_TAG_NOT_THE_SAME, (_str + "Close TAG: " + xmlLexRet.strValue + " is not the same as the start (" + strBasename + ")").c_str());
+                    
                     
                     return;
                 }
@@ -321,6 +325,7 @@ void XmlParser::ProcessAndPrintOut(string strPath, xmlElements_t nType)
         
         throw ex;
     }
+
     
     return;
 }
